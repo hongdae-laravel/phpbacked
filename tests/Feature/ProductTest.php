@@ -29,4 +29,21 @@ class ProductTest extends TestCase
 
         $this->assertDatabaseHas('products', $data);
     }
+
+    public function testProductsNeedsActivation()
+    {
+        $product = factory(Product::class)->make();
+
+        $data = [
+            'url' => $product->url,
+            'name' => $product->name
+        ];
+
+        $this->post('/products', $data);
+
+        $newProduct = $data;
+        $newProduct['is_active'] = false;
+
+        $this->assertDatabaseHas('products', $newProduct);
+    }
 }

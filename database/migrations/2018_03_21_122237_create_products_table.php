@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('url')->unique();
             $table->string('name');
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
         });
     }
