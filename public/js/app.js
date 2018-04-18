@@ -47303,9 +47303,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/api/products', {
                 url: this.url,
                 name: this.name
-            }).then(function (response) {
-                alert('submitted!');
-            }).catch(function (e) {
+            }).then(function (response) {}).catch(function (e) {
                 _this.errors.push(e.response.data.errors);
             });
         },

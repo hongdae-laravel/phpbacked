@@ -41,7 +41,7 @@
                     url: this.url,
                     name: this.name
                 }).then(response => {
-                    alert('submitted!');
+
                 }).catch(e => {
                     this.errors.push(e.response.data.errors);
                 });
