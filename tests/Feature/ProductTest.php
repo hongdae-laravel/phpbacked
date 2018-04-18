@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Product;
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,6 +19,9 @@ class ProductTest extends TestCase
      */
     public function testAnyoneCanSubmitUrl()
     {
+        $user = factory(User::class)->create();
+        $this->actingAs($user, 'api');
+
         $product = factory(Product::class)->make();
 
         $data = [
@@ -25,7 +29,7 @@ class ProductTest extends TestCase
             'name' => $product->name
         ];
 
-        $this->post('/products', $data);
+        $this->postJson('/api/products', $data);
 
         $this->assertDatabaseHas('products', $data);
     }
@@ -39,7 +43,7 @@ class ProductTest extends TestCase
             'name' => $product->name
         ];
 
-        $this->post('/products', $data);
+        $this->post('/api/products', $data);
 
         $newProduct = $data;
         $newProduct['is_active'] = false;
