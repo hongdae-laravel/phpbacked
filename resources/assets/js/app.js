@@ -17,6 +17,9 @@ window.Vue = require('vue');
 
 Vue.component('product-form', require('./components/ProductForm.vue'));
 Vue.component('product-list', require('./components/ProductList.vue'));
+Vue.component('site-info', require('./components/SiteInfo.vue'));
+
+Vue.prototype.$token = document.head.querySelector('meta[name="csrf-token"]').content;
 
 const app = new Vue({
     el: '#app'

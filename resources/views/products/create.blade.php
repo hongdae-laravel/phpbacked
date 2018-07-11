@@ -3,9 +3,8 @@
 @section('content')
     <div class="container text-center my-5">
         <site-info></site-info>
-        <p><a href="/products/create">Do you have any php applications you would like to register?</a></p>
     </div>
     <div class="container">
-        <product-list></product-list>
+        <product-form :errors="{{ $errors }}"></product-form>
     </div>
 @endsection
