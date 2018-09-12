@@ -47621,13 +47621,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.validate();
 
+            $('.modal').modal('show');
+
             if (event) event.preventDefault();
 
             axios.post('/api/products', {
                 url: this.url,
                 name: this.name
             }).then(function (response) {
-                alert('Thanks!');
                 location.href = "/";
             }).catch(function (e) {
                 var errors = e.response.data.errors;
@@ -47642,6 +47643,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         _this.errors.push(msg);
                     }
                 }
+
+                $('.modal').modal('hide');
             });
         },
         validate: function validate() {

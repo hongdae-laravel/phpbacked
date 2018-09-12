@@ -42,13 +42,14 @@
             addProduct: function (event) {
                 this.validate();
 
+                $('.modal').modal('show');
+
                 if (event) event.preventDefault();
 
                 axios.post('/api/products', {
                     url: this.url,
                     name: this.name
                 }).then(response => {
-                    alert('Thanks!');
                     location.href = "/";
                 }).catch(e => {
                     let errors = e.response.data.errors;
@@ -63,6 +64,8 @@
                             this.errors.push(msg);
                         }
                     }
+
+                    $('.modal').modal('hide');
                 });
             },
             validate: function () {
