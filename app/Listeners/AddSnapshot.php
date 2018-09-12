@@ -53,7 +53,7 @@ class AddSnapshot
         $imagePath = $path . "/" . md5($event->product->name) . ".png";
         $imageRealPath = public_path($imagePath);
 
-        Browsershot::url($event->product->url)->save($imageRealPath);
+        Browsershot::url($event->product->url)->setOption('args', '--lang=en-GB')->save($imageRealPath);
         return $imagePath;
     }
 
