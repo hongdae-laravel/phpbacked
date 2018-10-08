@@ -40,46 +40,53 @@
         },
         methods: {
             addProduct: function (event) {
-                this.validate();
-
-                $('.modal').modal('show');
-                this.errors = [];
-
                 if (event) event.preventDefault();
+                if(this.validate()){
+                    $('.modal').modal('show');
+                    this.errors = [];
 
-                axios.post('/api/products', {
-                    url: this.url,
-                    name: this.name
-                }).then(response => {
-                    location.href = "/";
-                }).catch(e => {
-                    let msg = e.response.data.message;
+                    if (event) event.preventDefault();
 
-                    if(msg) {
-                        if(msg.includes('1062')) {
-                            this.errors.push('It\'s already exists');
-                        } else if(e.response.status == 500) {
-                            this.errors.push('Whoops something wrong!')
-                        } else {
-                            this.errors.push(msg);
+                    axios.post('/api/products', {
+                        url: this.url,
+                        name: this.name
+                    }).then(response => {
+                        location.href = "/";
+                    }).catch(e => {
+                        let msg = e.response.data.message;
+
+                        if(msg) {
+                            if(msg.includes('1062')) {
+                                this.errors.push('It\'s already exists');
+                            } else if(e.response.status == 500) {
+                                this.errors.push('Whoops something wrong!')
+                            } else {
+                                this.errors.push(msg);
+                            }
                         }
-                    }
-                });
+                    });
 
-                setTimeout(function(){
-                    $('.modal').modal('hide');
-                }, 2000);
+                    setTimeout(function(){
+                        $('.modal').modal('hide');
+                    }, 2000);
+                }
             },
             validate: function () {
                 if (!this.url) {
                     alert('URI is required');
-                    return;
+                    return false;
                 }
 
                 if (!this.name) {
                     alert('Name is required');
-                    return;
+                    return false;
                 }
+
+                if (this.url.slice(0,4) != 'http') {
+                    this.url = 'http://' + this.url;
+                }
+
+                return true;
             }
         }
     }
