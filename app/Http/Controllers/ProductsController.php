@@ -15,6 +15,10 @@ class ProductsController extends Controller
     {
         $refinedUrl = $this->refineUrl($guzzle, $request->input('url'));
 
+        if(!$this->url_exists($refinedUrl)){
+            return response("{$refinedUrl} is not valid URL.");
+        }
+
         $metaTags = get_meta_tags($refinedUrl);
 
         $product = Product::create([
@@ -64,5 +68,10 @@ class ProductsController extends Controller
         $refinedUrl = $scheme . "://" . $url->getHost();
 
         return $refinedUrl;
+    }
+
+    public function url_exists($url) {
+        if (!$fp = curl_init($url)) return false;
+        return true;
     }
 }

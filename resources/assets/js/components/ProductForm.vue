@@ -43,6 +43,7 @@
                 this.validate();
 
                 $('.modal').modal('show');
+                this.errors = [];
 
                 if (event) event.preventDefault();
 
@@ -52,21 +53,22 @@
                 }).then(response => {
                     location.href = "/";
                 }).catch(e => {
-                    let errors = e.response.data.errors;
-                    if (errors) {
-                        console.log(errors);
-                        this.errors = errors;
-                    } else {
-                        let msg = e.response.data.message;
+                    let msg = e.response.data.message;
+
+                    if(msg) {
                         if(msg.includes('1062')) {
                             this.errors.push('It\'s already exists');
+                        } else if(e.response.status == 500) {
+                            this.errors.push('Whoops something wrong!')
                         } else {
                             this.errors.push(msg);
                         }
                     }
-
-                    $('.modal').modal('hide');
                 });
+
+                setTimeout(function(){
+                    $('.modal').modal('hide');
+                }, 2000);
             },
             validate: function () {
                 if (!this.url) {

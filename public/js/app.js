@@ -47622,6 +47622,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.validate();
 
             $('.modal').modal('show');
+            this.errors = [];
 
             if (event) event.preventDefault();
 
@@ -47631,21 +47632,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (response) {
                 location.href = "/";
             }).catch(function (e) {
-                var errors = e.response.data.errors;
-                if (errors) {
-                    console.log(errors);
-                    _this.errors = errors;
-                } else {
-                    var msg = e.response.data.message;
+                var msg = e.response.data.message;
+
+                if (msg) {
                     if (msg.includes('1062')) {
                         _this.errors.push('It\'s already exists');
+                    } else if (e.response.status == 500) {
+                        _this.errors.push('Whoops something wrong!');
                     } else {
                         _this.errors.push(msg);
                     }
                 }
-
-                $('.modal').modal('hide');
             });
+
+            setTimeout(function () {
+                $('.modal').modal('hide');
+            }, 2000);
         },
         validate: function validate() {
             if (!this.url) {
